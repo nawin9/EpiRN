@@ -8,6 +8,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected String getJSMainModuleName() {
-      return "index";
+      return "index.android";
     }
   };
 
@@ -41,5 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    if (!BuildConfig.BUILD_TYPE.equals("debug"))
+	    Fabric.with(this, new Crashlytics());
   }
 }

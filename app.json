@@ -1,7 +1,4 @@
 {
-  "expo": {
-    "sdkVersion": "26.0.0"
-  },
-  "name": "epirn",
-  "displayName": "index.js"
+    "name": "epirn",
+    "displayName": "index.js"
 }
