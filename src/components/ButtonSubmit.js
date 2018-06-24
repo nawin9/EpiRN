@@ -9,7 +9,7 @@ const MARGIN = 40;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        top: -95,
+        top: -100,
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
@@ -93,7 +93,7 @@ export default class ButtonSubmit extends Component {
         return (
             <View style={styles.container}>
                 <Animated.View style={{ width: changeWidth }}>
-                    <TouchableOpacity style={styles.button} onPress={this._onPress} activeOpacity={1}>
+                    <TouchableOpacity style={styles.button} onPress={this.onPress} activeOpacity={1}>
                         {this.state.isLoading ? (
                             <Image source={images.spinner} style={styles.image} />
                         ) : (

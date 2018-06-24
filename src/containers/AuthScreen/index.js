@@ -19,15 +19,9 @@ class AuthScreen extends Component {
     componentDidMount() {
         this.authSubscription = firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                // this.props.userChange({ uid: user.uid, ...user._user });
                 this.props.navigation.dispatch(
-                    NavigationActions.reset({
-                        index: 0,
-                        actions: [
-                            NavigationActions.navigate({
-                                routeName: 'Main',
-                            }),
-                        ],
+                    NavigationActions.navigate({
+                        routeName: 'Main',
                     })
                 );
             }
@@ -41,7 +35,6 @@ class AuthScreen extends Component {
     }
 
     handleOnPress = () => {
-        console.log(this.state);
         this.props.login({
             email: this.state.email,
             password: this.state.password,

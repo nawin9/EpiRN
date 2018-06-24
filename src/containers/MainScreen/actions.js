@@ -1,18 +1,32 @@
-// import { ofType } from 'redux-observable';
-// import { mergeMap } from 'rxjs/operators';
-// import { ajax } from 'rxjs/ajax';
+import firebase from 'react-native-firebase';
 
-// import { FETCH_USER, FETCH_USER_FULFILLED } from './constants';
+import { FETCH_TASK, FETCH_TASK_SUCCESS, FETCH_TASK_FAILURE } from './constants';
 
-// export const fetchUsers = () => ({ type: FETCH_USER });
+const fetchingTask = () => ({
+    type: FETCH_TASK,
+});
 
-// export const fetchUserFulfilled = payload => ({
-//     type: FETCH_USER_FULFILLED,
-//     payload,
-// });
+const fetchingTaskSuccess = payload => ({
+    type: FETCH_TASK_SUCCESS,
+    payload,
+});
 
-// export const fetchUsersEpic = action$ =>
-//     action$.pipe(
-//         ofType(FETCH_USER),
-//         mergeMap(action => ajax.getJSON(`https://api.github.com/users`).map(response => fetchUserFulfilled(response)))
-//     );
+const fetchingTaskFailure = payload => ({
+    type: FETCH_TASK_FAILURE,
+    payload,
+});
+
+const fetchTasks = () => async dispatch => {
+    dispatch(fetchingTask());
+    try {
+        dispatch(
+            fetchingTaskSuccess({
+                tasks: [],
+            })
+        );
+    } catch (e) {
+        dispatch(fetchingTaskFailure(e.mesage));
+    }
+};
+
+export { fetchTasks };
