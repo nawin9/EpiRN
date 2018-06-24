@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "412643856589",
+    "firebase_url": "https://epirn-ee002.firebaseio.com",
+    "project_id": "epirn-ee002",
+    "storage_bucket": "epirn-ee002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412643856589:android:be5b37ab7fe3147c",
+        "android_client_info": {
+          "package_name": "com.epirn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412643856589-ce1ti0s7edakgfnoc2iik41ha8mfsgte.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1wZVAePdnbGNjQqHR-JdxwyHCdsqNLGo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

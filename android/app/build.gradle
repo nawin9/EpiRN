@@ -73,12 +73,6 @@ import com.android.build.OutputFile
  * ]
  */
 
-project.ext.react = [
-    entryFile: "index.js"
-]
-
-apply from: "../../node_modules/react-native/react.gradle"
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -95,13 +89,14 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    //buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.epirn"
         minSdkVersion 16
-        targetSdkVersion 22
+        //targetSdkVersion 22
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         ndk {
@@ -114,6 +109,12 @@ android {
             storePassword "nawinkim"
             keyAlias "key-alias"
             keyPassword "nawinkim"
+            if (project.hasProperty('EPIRN_RELEASE_STORE_FILE')) {
+                storeFile file(EPIRN_RELEASE_STORE_FILE)
+                storePassword EPIRN_RELEASE_STORE_PASSWORD
+                keyAlias EPIRN_RELEASE_KEY_ALIAS
+                keyPassword EPIRN_RELEASE_KEY_PASSWORD
+            }
         }
     }
     splits {
@@ -151,10 +152,15 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    implementation project(':react-native-firebase')
+    implementation 'com.google.android.gms:play-services-base:15.0.0'
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation'com.google.firebase:firebase-auth:15.1.0'
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.android.support:appcompat-v7:23.0.1'
+    implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
 }
@@ -165,3 +171,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

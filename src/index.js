@@ -1,26 +1,47 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { createStackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
 
+import configureStore from './store';
+import MainScreen from './containers/MainScreen';
+import AuthScreen from './containers/AuthScreen';
 
-class App extends React.Component {
+const Routes = createStackNavigator(
+    {
+        Auth: {
+            screen: AuthScreen,
+        },
+        Main: { screen: MainScreen },
+    },
+    {
+        initialRouteName: 'Auth',
+        headerMode: 'none',
+    }
+);
+
+const prevGetStateForAction = Routes.router.getStateForAction;
+Routes.router.getStateForAction = (action, state) => {
+    if (state && action.type === 'Navigation/NAVIGATE') {
+        const index = state.routes.findIndex(item => item.routeName === action.routeName);
+        if (index > -1) {
+            const routes = state.routes.slice(0, index + 1);
+            return {
+                routes,
+                index,
+            };
+        }
+    }
+    return prevGetStateForAction(action, state);
+};
+
+const store = configureStore();
+
+export default class App extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Open up App.js to start working on your app!</Text>
-                <Text>Changes you make will automatically reload.</Text>
-                <Text>Shake your phone to open the developer menu.</Text>
-            </View>
+            <Provider store={store}>
+                <Routes />
+            </Provider>
         );
     }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ff2343',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default App;

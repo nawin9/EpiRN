@@ -2,6 +2,8 @@ package com.epirn;
 
 import android.app.Application;
 
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -25,7 +27,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+          new RNFirebasePackage(),
+          new RNFirebaseAuthPackage()
       );
     }
 
@@ -45,6 +49,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     if (!BuildConfig.BUILD_TYPE.equals("debug"))
-	    Fabric.with(this, new Crashlytics());
+    Fabric.with(this, new Crashlytics());
   }
 }
