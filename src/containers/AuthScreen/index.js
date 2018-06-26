@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import firebase from 'react-native-firebase';
-import { View, Text, Image, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Image, ImageBackground, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 
 import { ButtonSubmit, UserInput } from '../../components';
 import * as actions from './actions';
@@ -14,6 +14,8 @@ class AuthScreen extends Component {
     state = {
         email: '',
         password: '',
+        rePassword: '',
+        isLogin: true,
     };
 
     componentDidMount() {
@@ -35,10 +37,17 @@ class AuthScreen extends Component {
     }
 
     handleOnPress = () => {
-        this.props.login({
-            email: this.state.email,
-            password: this.state.password,
-        });
+        if (this.state.isLogin) {
+            this.props.login({
+                email: this.state.email,
+                password: this.state.password,
+            });
+        } else if (this.state.password === this.state.rePassword) {
+            this.props.register({
+                email: this.state.email,
+                password: this.state.password,
+            });
+        }
     };
 
     render() {
@@ -52,7 +61,7 @@ class AuthScreen extends Component {
                     <UserInput
                         source={images.userIcon}
                         secureTextEntry={false}
-                        placeholder="Username"
+                        placeholder="Email"
                         autoCapitalize="none"
                         returnKeyType="done"
                         autoCorrect={false}
@@ -67,12 +76,29 @@ class AuthScreen extends Component {
                         autoCorrect={false}
                         onChangeText={password => this.setState({ password })}
                     />
+                    {!this.state.isLogin && (
+                        <UserInput
+                            source={images.passwordIcon}
+                            secureTextEntry
+                            placeholder="Re password"
+                            returnKeyType="done"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            onChangeText={rePassword => this.setState({ rePassword })}
+                        />
+                    )}
                 </KeyboardAvoidingView>
 
-                <View style={styles.signUpContainer}>
-                    <Text style={styles.signUpText}>Create Account</Text>
-                    <Text style={styles.signUpText}>Forgot Password?</Text>
-                </View>
+                <TouchableOpacity
+                    style={styles.signUpContainer}
+                    onPress={() => {
+                        this.setState({ isLogin: !this.state.isLogin });
+                    }}
+                >
+                    <Text style={styles.signUpText}>
+                        {this.state.isLogin ? 'Create Account' : 'Already registered'}
+                    </Text>
+                </TouchableOpacity>
 
                 <ButtonSubmit onPress={() => this.handleOnPress()} />
             </ImageBackground>
@@ -89,6 +115,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         login: user => dispatch(actions.login(user)),
+        register: user => dispatch(actions.register(user)),
     };
 }
 

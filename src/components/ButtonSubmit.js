@@ -73,7 +73,6 @@ export default class ButtonSubmit extends Component {
         }, 2000);
 
         setTimeout(() => {
-            // Actions.secondScreen();
             this.setState({ isLoading: false });
             this.buttonAnimated.setValue(0);
             this.growAnimated.setValue(0);
@@ -97,7 +96,7 @@ export default class ButtonSubmit extends Component {
                         {this.state.isLoading ? (
                             <Image source={images.spinner} style={styles.image} />
                         ) : (
-                            <Text style={styles.text}>LOGIN</Text>
+                            <Text style={styles.text}>{this.props.isLogin ? 'LOGIN' : 'REGISTER'}</Text>
                         )}
                     </TouchableOpacity>
                     <Animated.View style={[styles.circle, { transform: [{ scale: changeScale }] }]} />
